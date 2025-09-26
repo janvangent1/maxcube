@@ -10,7 +10,7 @@ from homeassistant.const import UnitOfTemperature, PERCENTAGE
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import CONF_VALVE_POSITIONS, DOMAIN
+from .const import DOMAIN
 from .coordinator import MaxCubeCoordinator
 
 _LOGGER = logging.getLogger(__name__)

@@ -9,7 +9,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import CONF_HEAT_DEMAND_SWITCH, DOMAIN
+from .const import DOMAIN
 from .coordinator import MaxCubeCoordinator
 
 _LOGGER = logging.getLogger(__name__)

@@ -9,8 +9,8 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import DOMAIN
-from .maxcube.cube import MaxCube
-from .maxcube.connection import MaxCubeConnection
+from .cube import MaxCube
+from .connection import MaxCubeConnection
 
 _LOGGER = logging.getLogger(__name__)
 
