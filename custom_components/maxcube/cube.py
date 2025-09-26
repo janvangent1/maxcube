@@ -283,8 +283,12 @@ class MaxCube(MaxDevice):
 
         rf_address = thermostat.rf_address
         room = str(thermostat.room_id) if thermostat.room_id is not None else '00'
-        if thermostat.room_id is not None and thermostat.room_id < 10:
-            room = '0' + room
+        try:
+            if thermostat.room_id is not None and thermostat.room_id < 10:
+                room = '0' + room
+        except TypeError:
+            # Skip padding if comparison fails due to type mismatch
+            pass
         target_temperature = int(temperature * 2) + (mode << 6)
 
         byte_cmd = '000440000000' + rf_address + room + hex(target_temperature)[2:].zfill(2)
