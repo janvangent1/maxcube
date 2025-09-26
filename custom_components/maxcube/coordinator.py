@@ -1,4 +1,4 @@
-"""Data coordinator for eQ-3 MAX! integration."""
+"""Data coordinator for Jan MAX! integration."""
 from __future__ import annotations
 
 import logging
@@ -16,7 +16,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class MaxCubeCoordinator(DataUpdateCoordinator):
-    """Class to manage fetching data from the eQ-3 MAX! Cube."""
+    """Class to manage fetching data from the Jan MAX! Cube."""
 
     def __init__(self, hass: HomeAssistant, entry: ConfigEntry) -> None:
         """Initialize the coordinator."""

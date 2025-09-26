@@ -1,6 +1,6 @@
-"""Constants for the eQ-3 MAX! integration."""
+"""Constants for the Jan MAX! integration."""
 
-DOMAIN = "maxcube"
+DOMAIN = "jan_max"
 
 # Configuration keys
 CONF_CUBE_ADDRESS = "cube_address"

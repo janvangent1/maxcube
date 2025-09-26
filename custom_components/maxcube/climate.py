@@ -1,4 +1,4 @@
-"""Climate platform for eQ-3 MAX! integration."""
+"""Climate platform for Jan MAX! integration."""
 from __future__ import annotations
 
 import logging
@@ -43,7 +43,7 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up the eQ-3 MAX! climate platform."""
+    """Set up the Jan MAX! climate platform."""
     coordinator: MaxCubeCoordinator = hass.data[DOMAIN][config_entry.entry_id]
     
     entities = []

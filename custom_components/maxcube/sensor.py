@@ -1,4 +1,4 @@
-"""Sensor platform for eQ-3 MAX! integration."""
+"""Sensor platform for Jan MAX! integration."""
 from __future__ import annotations
 
 import logging
@@ -21,7 +21,7 @@ async def async_setup_entry(
     config_entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up the eQ-3 MAX! sensor platform."""
+    """Set up the Jan MAX! sensor platform."""
     coordinator: MaxCubeCoordinator = hass.data[DOMAIN][config_entry.entry_id]
     
     entities = []

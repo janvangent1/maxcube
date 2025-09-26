@@ -1,4 +1,4 @@
-"""Services for eQ-3 MAX! integration."""
+"""Services for Jan MAX! integration."""
 from __future__ import annotations
 
 import logging
