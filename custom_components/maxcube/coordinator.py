@@ -70,7 +70,9 @@ class MaxCubeCoordinator(DataUpdateCoordinator):
         min_valve_position = self.entry.data.get("min_valve_position", 25)
         
         for device in cube.devices:
-            if cube.is_thermostat(device) and device.valve_position > min_valve_position:
+            if (cube.is_thermostat(device) and 
+                device.valve_position is not None and 
+                device.valve_position > min_valve_position):
                 return True
         
         return False
