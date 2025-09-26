@@ -1,0 +1,41 @@
+# Services for Jan MAX! integration
+
+reload_devices:
+  name: Reload devices
+  description: Reload all devices from the MAX! Cube
+  fields:
+    cube_address:
+      name: Cube address
+      description: IP address of the MAX! Cube
+      required: true
+      selector:
+        text:
+
+clear_and_reload_devices:
+  name: Clear and reload devices
+  description: Clear cached data and reload all devices from the MAX! Cube
+  fields:
+    cube_address:
+      name: Cube address
+      description: IP address of the MAX! Cube
+      required: true
+      selector:
+        text:
+
+gpio_command:
+  name: GPIO command
+  description: Execute a GPIO command
+  fields:
+    command:
+      name: Command
+      description: GPIO command to execute
+      required: true
+      selector:
+        text:
+    url:
+      name: URL
+      description: Base URL for GPIO commands
+      required: false
+      default: "http://192.168.1.190/control"
+      selector:
+        text:
