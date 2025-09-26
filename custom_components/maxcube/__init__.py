@@ -1,4 +1,4 @@
-"""The MAX! integration."""
+"""The Jan eQ-3 MAX! integration."""
 from __future__ import annotations
 
 import logging
@@ -18,7 +18,7 @@ PLATFORMS: list[Platform] = [Platform.CLIMATE, Platform.SENSOR, Platform.SWITCH]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up MAX! from a config entry."""
+    """Set up Jan eQ-3 MAX! from a config entry."""
     coordinator = MaxCubeCoordinator(hass, entry)
     
     await coordinator.async_config_entry_first_refresh()

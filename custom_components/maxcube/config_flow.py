@@ -1,4 +1,4 @@
-"""Config flow for MAX! integration."""
+"""Config flow for Jan eQ-3 MAX! integration."""
 from __future__ import annotations
 
 import logging
@@ -31,7 +31,7 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
 
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for MAX!."""
+    """Handle a config flow for Jan eQ-3 MAX!."""
 
     VERSION = 1
 
@@ -48,6 +48,6 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self._abort_if_unique_id_configured()
 
         return self.async_create_entry(
-            title=f"MAX! Cube ({user_input['cube_address']})",
+            title=f"Jan eQ-3 MAX! Cube ({user_input['cube_address']})",
             data=user_input,
         )
