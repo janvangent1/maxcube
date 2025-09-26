@@ -48,18 +48,18 @@ class MaxCubeCoordinator(DataUpdateCoordinator):
             # Update cube data
             cube.update()
             
-                # Prepare data for platforms
-                data = {
-                    "cube": cube,
-                    "devices": cube.devices,
-                    "rooms": cube.rooms,
-                    "heat_demand": self._calculate_heat_demand(cube),
-                    "gpio_status": self.data.get("gpio_status", "Ready") if self.data else "Ready",
-                    "last_gpio_command": self.data.get("last_gpio_command", "None") if self.data else "None",
-                    "last_gpio_result": self.data.get("last_gpio_result", "None") if self.data else "None",
-                    "last_gpio_timestamp": self.data.get("last_gpio_timestamp", "None") if self.data else "None",
-                    "gpio_command_count": self.data.get("gpio_command_count", 0) if self.data else 0,
-                }
+            # Prepare data for platforms
+            data = {
+                "cube": cube,
+                "devices": cube.devices,
+                "rooms": cube.rooms,
+                "heat_demand": self._calculate_heat_demand(cube),
+                "gpio_status": self.data.get("gpio_status", "Ready") if self.data else "Ready",
+                "last_gpio_command": self.data.get("last_gpio_command", "None") if self.data else "None",
+                "last_gpio_result": self.data.get("last_gpio_result", "None") if self.data else "None",
+                "last_gpio_timestamp": self.data.get("last_gpio_timestamp", "None") if self.data else "None",
+                "gpio_command_count": self.data.get("gpio_command_count", 0) if self.data else 0,
+            }
             
             if self.debug_mode:
                 _LOGGER.debug("Updated MAX! Cube data: %s devices, %s rooms", 
