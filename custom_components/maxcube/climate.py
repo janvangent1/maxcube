@@ -60,7 +60,7 @@ async def async_setup_entry(
             if cube.is_thermostat(device):
                 room = cube.room_by_id(device.room_id)
                 has_wall_thermostat = any(
-                    cube.is_wallthermostat(d) and d.room_id == device.room_id
+                    cube.is_wallthermostat(d) and d.room_id is not None and device.room_id is not None and d.room_id == device.room_id
                     for d in cube.devices
                 )
                 if has_wall_thermostat:

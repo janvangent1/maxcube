@@ -40,18 +40,24 @@ class MaxCube(MaxDevice):
         logger.info('Cube (rf=%s, firmware=%s)' % (self.rf_address, self.firmware_version))
         for device in self.devices:
             if self.is_thermostat(device):
+                room = self.room_by_id(device.room_id)
+                room_name = room.name if room else "Unknown"
                 logger.info('Thermostat (type=%s, rf=%s, room=%s, name=%s, mode=%s, min=%s, max=%s, actual=%s, target=%s, valve=%s)'
-                            % (device.type, device.rf_address, self.room_by_id(device.room_id).name, device.name,
+                            % (device.type, device.rf_address, room_name, device.name,
                                device.mode, device.min_temperature, device.max_temperature,
                                device.actual_temperature, device.target_temperature, device.valve_position))
             elif self.is_wallthermostat(device):
+                room = self.room_by_id(device.room_id)
+                room_name = room.name if room else "Unknown"
                 logger.info('WallThermostat (type=%s, rf=%s, room=%s, name=%s, min=%s, max=%s, actual=%s, target=%s)'
-                            % (device.type, device.rf_address, self.room_by_id(device.room_id).name, device.name,
+                            % (device.type, device.rf_address, room_name, device.name,
                                device.min_temperature, device.max_temperature,
                                device.actual_temperature, device.target_temperature))
             elif self.is_windowshutter(device):
+                room = self.room_by_id(device.room_id)
+                room_name = room.name if room else "Unknown"
                 logger.info('WindowShutter (type=%s, rf=%s, room=%s, name=%s, init=%s, open=%s)'
-                            % (device.type, device.rf_address, self.room_by_id(device.room_id).name, device.name,
+                            % (device.type, device.rf_address, room_name, device.name,
                                device.initialized, device.is_open))
             else:
                 logger.info('Device (rf=%s, name=%s' % (device.rf_address, device.name))
@@ -75,7 +81,7 @@ class MaxCube(MaxDevice):
         rooms = []
 
         for device in self.devices:
-            if device.room_id == room.id:
+            if device.room_id is not None and room.id is not None and device.room_id == room.id:
                 rooms.append(device)
 
         return rooms
@@ -85,7 +91,7 @@ class MaxCube(MaxDevice):
 
     def room_by_id(self, id):
         for room in self.rooms:
-            if room.id == id:
+            if room.id is not None and id is not None and room.id == id:
                 return room
         return None
 
@@ -222,7 +228,7 @@ class MaxCube(MaxDevice):
             # Thermostat
             if device and self.is_thermostat(device):
                 device.valve_position = data[pos + 7]
-                if device.mode == MAX_DEVICE_MODE_MANUAL or device.mode == MAX_DEVICE_MODE_AUTOMATIC:
+                if device.mode is not None and (device.mode == MAX_DEVICE_MODE_MANUAL or device.mode == MAX_DEVICE_MODE_AUTOMATIC):
                     actual_temperature = ((data[pos + 9] & 0xFF) * 256 + (data[pos + 10] & 0xFF)) / 10.0
                     if actual_temperature != 0:
                         device.actual_temperature = actual_temperature
