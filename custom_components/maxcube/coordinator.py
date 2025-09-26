@@ -108,3 +108,40 @@ class MaxCubeCoordinator(DataUpdateCoordinator):
                 
         except Exception as err:
             _LOGGER.error("Error setting mode: %s", err)
+
+    async def reload_devices(self) -> None:
+        """Reload all devices by scanning the cube again."""
+        try:
+            _LOGGER.info("Reloading MAX! Cube devices...")
+            
+            # Force a fresh connection and scan
+            connection = MaxCubeConnection(self.cube_address, self.cube_port)
+            cube = MaxCube(connection)
+            cube.update()
+            
+            # Update the coordinator data
+            await self.async_request_refresh()
+            
+            _LOGGER.info("Successfully reloaded %s devices and %s rooms", 
+                        len(cube.devices), len(cube.rooms))
+            
+        except Exception as err:
+            _LOGGER.error("Error reloading devices: %s", err)
+            raise
+
+    async def clear_and_reload_devices(self) -> None:
+        """Clear all cached data and reload devices from cube."""
+        try:
+            _LOGGER.info("Clearing cached data and reloading MAX! Cube devices...")
+            
+            # Clear any cached data
+            self.data = None
+            
+            # Force a fresh scan
+            await self.reload_devices()
+            
+            _LOGGER.info("Successfully cleared cache and reloaded devices")
+            
+        except Exception as err:
+            _LOGGER.error("Error clearing and reloading devices: %s", err)
+            raise
