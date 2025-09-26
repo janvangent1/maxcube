@@ -249,11 +249,19 @@ class MaxCube(MaxDevice):
             logger.error('%s is no (wall-)thermostat!', thermostat.rf_address)
             return
 
+        if thermostat.mode is None:
+            logger.error('Thermostat mode is None, cannot set temperature')
+            return
+
         self.set_temperature_mode(thermostat, temperature, thermostat.mode)
 
     def set_mode(self, thermostat, mode):
         if not self.is_thermostat(thermostat) and not self.is_wallthermostat(thermostat):
             logger.error('%s is no (wall-)thermostat!', thermostat.rf_address)
+            return
+
+        if thermostat.target_temperature is None:
+            logger.error('Thermostat target temperature is None, cannot set mode')
             return
 
         self.set_temperature_mode(thermostat, thermostat.target_temperature, mode)
@@ -265,9 +273,17 @@ class MaxCube(MaxDevice):
             logger.error('%s is no (wall-)thermostat!', thermostat.rf_address)
             return
 
+        # Check for None values
+        if temperature is None:
+            logger.error('Temperature cannot be None')
+            return
+        if mode is None:
+            logger.error('Mode cannot be None')
+            return
+
         rf_address = thermostat.rf_address
-        room = str(thermostat.room_id)
-        if thermostat.room_id < 10:
+        room = str(thermostat.room_id) if thermostat.room_id is not None else '00'
+        if thermostat.room_id is not None and thermostat.room_id < 10:
             room = '0' + room
         target_temperature = int(temperature * 2) + (mode << 6)
 
