@@ -41,8 +41,7 @@ async def async_setup_entry(
             if cube.is_thermostat(device) and create_valve_devices:
                 entities.append(MaxCubeValveSensor(coordinator, device))
     
-    # Add GPIO status sensor
-    entities.append(MaxCubeGpioStatusSensor(coordinator))
+        # GPIO status sensor removed - was causing issues
     
     async_add_entities(entities)
 
@@ -112,42 +111,4 @@ class MaxCubeValveSensor(SensorEntity):
         await self.coordinator.async_request_refresh()
 
 
-class MaxCubeGpioStatusSensor(SensorEntity):
-    """Representation of a MAX! GPIO status sensor."""
-
-    _attr_icon = "mdi:chip"
-    _attr_entity_category = EntityCategory.DIAGNOSTIC
-
-    def __init__(self, coordinator: MaxCubeCoordinator) -> None:
-        """Initialize the GPIO status sensor."""
-        self.coordinator = coordinator
-        
-        # Set unique ID
-        self._attr_unique_id = "maxcube_gpio_status"
-        
-        # Set name
-        self._attr_name = "MAX! Cube GPIO Status"
-
-    @property
-    def native_value(self) -> str:
-        """Return the current GPIO status."""
-        return self.coordinator.data.get("gpio_status", "Unknown")
-
-    @property
-    def available(self) -> bool:
-        """Return if entity is available."""
-        return self.coordinator.last_update_success
-
-    @property
-    def extra_state_attributes(self) -> dict[str, Any]:
-        """Return extra state attributes."""
-        return {
-            "last_command": self.coordinator.data.get("last_gpio_command", "None"),
-            "last_result": self.coordinator.data.get("last_gpio_result", "None"),
-            "last_timestamp": self.coordinator.data.get("last_gpio_timestamp", "None"),
-            "command_count": self.coordinator.data.get("gpio_command_count", 0),
-        }
-
-    async def async_update(self) -> None:
-        """Update the entity."""
-        await self.coordinator.async_request_refresh()
+# GPIO status sensor removed - was causing issues

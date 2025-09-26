@@ -1,4 +1,4 @@
-"""Data coordinator for Jan MAX! integration."""
+"""Data coordinator for MAX! integration."""
 from __future__ import annotations
 
 import logging
@@ -16,7 +16,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 class MaxCubeCoordinator(DataUpdateCoordinator):
-    """Class to manage fetching data from the Jan MAX! Cube."""
+    """Class to manage fetching data from the MAX! Cube."""
 
     def __init__(self, hass: HomeAssistant, entry: ConfigEntry) -> None:
         """Initialize the coordinator."""
@@ -54,11 +54,6 @@ class MaxCubeCoordinator(DataUpdateCoordinator):
                 "devices": cube.devices,
                 "rooms": cube.rooms,
                 "heat_demand": self._calculate_heat_demand(cube),
-                "gpio_status": self.data.get("gpio_status", "Ready") if self.data else "Ready",
-                "last_gpio_command": self.data.get("last_gpio_command", "None") if self.data else "None",
-                "last_gpio_result": self.data.get("last_gpio_result", "None") if self.data else "None",
-                "last_gpio_timestamp": self.data.get("last_gpio_timestamp", "None") if self.data else "None",
-                "gpio_command_count": self.data.get("gpio_command_count", 0) if self.data else 0,
             }
             
             if self.debug_mode:
@@ -153,20 +148,4 @@ class MaxCubeCoordinator(DataUpdateCoordinator):
             _LOGGER.error("Error clearing and reloading devices: %s", err)
             raise
 
-    async def update_gpio_status(self, command: str, result: str, success: bool) -> None:
-        """Update GPIO status information."""
-        from datetime import datetime
-        
-        if self.data is None:
-            self.data = {}
-        
-        self.data["gpio_status"] = "Success" if success else "Failed"
-        self.data["last_gpio_command"] = command
-        self.data["last_gpio_result"] = result
-        self.data["last_gpio_timestamp"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        self.data["gpio_command_count"] = self.data.get("gpio_command_count", 0) + 1
-        
-        _LOGGER.info("GPIO command '%s' %s: %s", command, "succeeded" if success else "failed", result)
-        
-        # Trigger entity update
-        await self.async_request_refresh()
+# GPIO status methods removed - were causing issues

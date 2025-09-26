@@ -1,4 +1,4 @@
-"""The Jan MAX! integration."""
+"""The MAX! integration."""
 from __future__ import annotations
 
 import logging
@@ -10,7 +10,7 @@ from homeassistant.core import HomeAssistant
 
 from .const import DOMAIN
 from .coordinator import MaxCubeCoordinator
-from .services import async_setup_services, async_unload_services
+# Services removed - were causing issues
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -18,7 +18,7 @@ PLATFORMS: list[Platform] = [Platform.CLIMATE, Platform.SENSOR, Platform.SWITCH]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up Jan MAX! from a config entry."""
+    """Set up MAX! from a config entry."""
     coordinator = MaxCubeCoordinator(hass, entry)
     
     await coordinator.async_config_entry_first_refresh()
@@ -26,9 +26,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = coordinator
     
-    # Set up services on first entry
-    if len(hass.data[DOMAIN]) == 1:
-        await async_setup_services(hass)
+    # Services removed - were causing issues
     
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     
@@ -41,9 +39,5 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     
     if unload_ok:
         hass.data[DOMAIN].pop(entry.entry_id)
-        
-        # Unload services if no more entries
-        if not hass.data[DOMAIN]:
-            await async_unload_services(hass)
     
     return unload_ok
