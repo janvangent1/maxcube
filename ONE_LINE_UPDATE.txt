@@ -1,0 +1,11 @@
+# MAX! Cube Integration - One-Line Update Command
+# Copy and paste this entire line into your Home Assistant SSH terminal:
+
+cd /config && rm -rf custom_components/maxcube && rm -rf .storage/core.config_entries .storage/core.device_registry .storage/core.entity_registry && git clone https://github.com/janvangent1/maxcube.git temp_maxcube && mv temp_maxcube/custom_components/maxcube ./ && rm -rf temp_maxcube && chmod -R 755 custom_components/maxcube/ && ha core restart && echo "✅ Update complete! The integration should now work without the None comparison error."
+
+# Alternative: Download and run the automated script
+# Copy and paste this line instead:
+
+cd /config && curl -s https://raw.githubusercontent.com/janvangent1/maxcube/master/auto_update_maxcube.sh | bash
+
+# After running either command, go to Settings → Devices & Services → Add Integration → Search "MAX! Cube"
