@@ -6,48 +6,26 @@ from typing import Any
 
 import voluptuous as vol
 from homeassistant import config_entries
-from homeassistant.const import CONF_HOST, CONF_PORT
 from homeassistant.data_entry_flow import FlowResult
-from homeassistant.helpers import config_validation as cv
 
-from .const import (
-    CONF_CUBE_ADDRESS,
-    CONF_CUBE_PORT,
-    CONF_VALVE_POSITIONS,
-    CONF_THERMOSTAT_MODES,
-    CONF_HEAT_DEMAND_SWITCH,
-    CONF_MIN_VALVE_POSITION,
-    CONF_UPDATE_INTERVAL,
-    CONF_DEBUG_MODE,
-    DEFAULT_PORT,
-    DEFAULT_VALVE_POSITIONS,
-    DEFAULT_THERMOSTAT_MODES,
-    DEFAULT_HEAT_DEMAND_SWITCH,
-    DEFAULT_MIN_VALVE_POSITION,
-    DEFAULT_UPDATE_INTERVAL,
-    DEFAULT_DEBUG_MODE,
-    DOMAIN,
-    UPDATE_INTERVALS,
-)
+from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
-        vol.Required(CONF_CUBE_ADDRESS): str,
-        vol.Required(CONF_CUBE_PORT, default=DEFAULT_PORT): vol.All(
+        vol.Required("cube_address"): str,
+        vol.Required("cube_port", default=62910): vol.All(
             vol.Coerce(int), vol.Range(min=1, max=65535)
         ),
-        vol.Required(CONF_VALVE_POSITIONS, default=DEFAULT_VALVE_POSITIONS): bool,
-        vol.Required(CONF_THERMOSTAT_MODES, default=DEFAULT_THERMOSTAT_MODES): bool,
-        vol.Required(CONF_HEAT_DEMAND_SWITCH, default=DEFAULT_HEAT_DEMAND_SWITCH): bool,
-        vol.Required(CONF_MIN_VALVE_POSITION, default=DEFAULT_MIN_VALVE_POSITION): vol.All(
+        vol.Required("valve_positions", default=True): bool,
+        vol.Required("thermostat_modes", default=False): bool,
+        vol.Required("heat_demand_switch", default=True): bool,
+        vol.Required("min_valve_position", default=25): vol.All(
             vol.Coerce(int), vol.Range(min=1, max=100)
         ),
-        vol.Required(CONF_UPDATE_INTERVAL, default=DEFAULT_UPDATE_INTERVAL): vol.In(
-            list(UPDATE_INTERVALS.keys())
-        ),
-        vol.Required(CONF_DEBUG_MODE, default=DEFAULT_DEBUG_MODE): bool,
+        vol.Required("update_interval", default=300): vol.In([60, 120, 300, 600, 1800]),
+        vol.Required("debug_mode", default=False): bool,
     }
 )
 
@@ -66,11 +44,10 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 step_id="user", data_schema=STEP_USER_DATA_SCHEMA
             )
 
-        # Check if already configured
-        await self.async_set_unique_id(user_input[CONF_CUBE_ADDRESS])
+        await self.async_set_unique_id(user_input["cube_address"])
         self._abort_if_unique_id_configured()
 
         return self.async_create_entry(
-            title=f"eQ-3 MAX! Cube ({user_input[CONF_CUBE_ADDRESS]})",
+            title=f"eQ-3 MAX! Cube ({user_input['cube_address']})",
             data=user_input,
         )
